@@ -3,9 +3,10 @@
 A thin proxy that puts the [0x Swap API](https://0x.org/docs/api) behind [x402](https://x402.org) — enabling pay-per-request access to swap quotes using on-chain USDC payments, with no API keys or accounts required for callers.
 
 ```
-Client ──GET /swap/quote──▶ Proxy ──▶ 402 + payment terms
-       ◀──pay USDC on-chain──────────────────────────────
-       ──GET /swap/quote (X-Payment header)──▶ Proxy ──▶ 0x API ──▶ quote
+1. Client  ──── GET /swap/quote ──────────────────▶ Proxy
+2. Proxy   ──── 402 + payment terms ─────────────▶ Client
+3. Client  ──── sign USDC payment (EIP-3009) ────▶ (on-chain)
+4. Client  ──── GET /swap/quote + X-Payment ─────▶ Proxy ──▶ 0x API ──▶ quote
 ```
 
 ---
